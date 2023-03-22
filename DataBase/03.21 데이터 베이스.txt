@@ -1,0 +1,203 @@
+
+
+
+SELECT 직원ID
+     , 연봉
+     , 연봉*0.5  AS 보너스
+     , 연봉*1.5  AS 실수령액
+  FROM 직원;
+
+  
+SELECT 직원ID
+     , 이름
+     , 나이
+     , 이름||'('||나이||')' AS 이름과나이결합
+  FROM 직원
+ WHERE 직원ID = 'A0001';
+ 
+ 
+ SELECT 직원ID
+     , 연락처
+     , SUBSTR(연락처, 5, 4)
+  FROM 직원연락처
+ WHERE 구분코드 = '휴대폰'
+   AND (직원ID = 'A0001'
+    OR 직원ID = 'A0002'
+    OR 직원ID = 'A0003') ;
+    
+    
+ SELECT 직원ID
+     , 패스워드
+     , REPLACE(패스워드, '!', '@') AS 변경된패스워드
+  FROM 직원;
+  
+  
+SELECT 직원ID
+     , 입사일시 
+     , TO_CHAR(입사일시, 'YYYY') AS 입사연도
+  FROM 직원;
+  
+SELECT 3 + '1000'
+  FROM 직원;
+  
+SELECT 직원ID, 나이, NVL(나이, 0)
+  FROM 직원;
+  
+SELECT 직원ID
+     , 패스워드
+     , NVL(나이, 20) AS 나이
+  FROM 직원;
+  
+SELECT 직원ID
+     , 성별
+     , 연봉
+     , DECODE(성별, '남', '남자입니다', '여자입니다') AS 남녀확인
+  FROM 직원;
+  
+  
+SELECT *
+  FROM 직원
+ WHERE NOT 이름 = '이현정';
+ 
+ 
+SELECT *
+  FROM 직원
+ WHERE 이름 != '이현정';
+ 
+
+SELECT *
+  FROM 직원연락처
+ WHERE 구분코드 != '휴대폰';
+ 
+SELECT 직원ID, 이름, 성별, 나이
+  FROM 직원
+ WHERE 나이 >= 50;
+ 
+ 
+SELECT 직원ID, 이름, 성별, NVL(나이, 3)
+  FROM 직원
+ WHERE 나이 < 50
+    OR 나이 IS NULL;
+ 
+SELECT *
+  FROM 직원
+ WHERE 나이 IS NULL;
+ 
+SELECT *
+  FROM 직원
+ WHERE 나이 IS NOT NULL;
+ 
+SELECT *
+  FROM 직원
+ WHERE 나이 IS NOT NULL;
+ 
+SELECT *
+  FROM 직원
+ WHERE 입사일시 IS NULL;
+ 
+SELECT *
+  FROM 직원
+ WHERE 직원ID NOT IN('A0001', 'A0003', 'A0005', 'A0007', NULL);
+
+/*
+SELECT *
+  FROM 직원
+ WHERE 나이 >= 20
+   AND 나이 <= 29;
+BETWEEN 범위조건 연산자를 통해서 아래와 같이 표현할 수 있다.  */
+   
+SELECT *
+  FROM 직원
+ WHERE 나이 BETWEEN 20 AND 29;
+ 
+SELECT *
+  FROM 직원
+ WHERE 직원ID BETWEEN 'A0001' AND 'A0009';
+ 
+SELECT *
+  FROM 직원
+ WHERE 이름 LIKE '강%';
+ 
+SELECT *
+  FROM 직원
+ WHERE 이름 LIKE '%홍%';
+ 
+SELECT *
+  FROM 직원
+ WHERE 패스워드 LIKE '%123';
+ 
+SELECT *
+  FROM 직원
+ WHERE 이름 LIKE '__수';
+ 
+SELECT 직원ID
+     , 이름
+     , 나이
+  FROM 직원
+ WHERE 이름 LIKE '%철%';
+ 
+SELECT *
+  FROM 직원
+ WHERE TO_CHAR(입사일시, 'YYYY') = 2015
+    OR 입사일시 IS NULL;
+
+
+SELECT *
+  FROM 직원
+ WHERE 입사일시 BETWEEN '2015/01/01 00:00:00' AND '2015/12/31 23:59:59';
+ 
+SELECT *
+  FROM 직원
+ WHERE 입사일시 BETWEEN TO_DATE('20170101') AND SYSDATE ; 
+ 
+SELECT 직원ID
+     , 연봉
+     , 입사일시
+  FROM 직원
+ WHERE 연봉 BETWEEN 7000 AND 9000;
+ 
+SELECT *
+  FROM 직원주소
+ WHERE 주소 LIKE '동구%';
+ 
+ 
+SELECT SERVICE.직원.직원ID
+  FROM SERVICE.직원
+ WHERE SERVICE.직원.직원ID = 'A0005';
+ 
+SELECT 직원ID
+  FROM 직원
+ WHERE 직원ID = 'A0005';
+ 
+SELECT *
+  FROM 직원, 직원연락처 ;
+  
+SELECT 직원. 직원ID
+     , 직원. 이름
+     , 직원. 나이
+     , 직원. 연봉
+     , 직원연락처. 직원ID
+     , 직원연락처. 연락처
+  FROM 직원, 직원연락처
+ WHERE 직원. 직원ID = 직원연락처. 직원ID;
+ 
+ 
+SELECT A. 직원ID
+     , A. 이름
+     , A. 나이
+     , A. 연봉
+     , B. 직원ID
+     , B. 연락처
+  FROM 직원 A, 직원연락처 B
+ WHERE A. 직원ID = B. 직원ID;
+ 
+ 
+SELECT A. 직원ID
+     , A. 이름
+     , A. 연봉
+     , 직원연락처. 연락처
+  FROM 직원 A
+     , 직원연락처
+ WHERE A. 직원ID = 직원연락처. 직원ID
+   AND A. 직원ID = 'A0006'
+   AND 직원연락처. 구분코드 = '휴대폰';
