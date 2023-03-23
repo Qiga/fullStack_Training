@@ -1,0 +1,294 @@
+
+/* 
+1. 성적표 와 수강생정보 테이블을 학생ID 를 기준으로 조인하려고 합니다. 
+   이때 "="조건으로 INNER 조인을 해서 S0001 , S0003 , S0005 의 데이터만 출력하세요.
+   (오라클 조인 방식, ANSI 조인 방식 아무거나 상관 없음) 
+   
+   [ 성적표    => 학생ID , 과목 , 성적 컬럼을 가져오세요 ] 
+   [ 수강생정보 => 학생이름 , 소속반 컬럼을 가져오세요 ] 
+   
+[출력결과] 
+학생ID  과목    성적  학생이름  소속반 
+S0001	국어     90	 김현철	  A
+S0001	수학     85	 김현철	  A
+S0001	영어    100 	 김현철	  A
+S0002	국어    100	 문현중	  A
+S0002	수학	   100	 문현중	  A
+S0002	영어	    20	 문현중	  A
+S0003	국어	   100	 강문치	  B
+S0003	수학	   100	 강문치	  B
+S0003	영어	    20	 강문치	  B 
+*/     
+
+SELECT A.학생ID
+     , A.과목
+     , A.성적
+     , B.학생이름
+     , B.소속반
+  FROM 성적표 A INNER JOIN 수강생정보 B
+    ON A.학생ID = B.학생ID
+ WHERE A.학생ID IN ('S0001', 'S0003', 'S0005');
+    
+/* 
+2. 성적표와 수강생정보 테이블을 조인을 하되, 성적이 정해지지않은(NULL) 데이터만 보이도록 해주세요.
+   (오라클 조인 방식, ANSI 조인 방식 아무거나 상관 없음) 
+   
+   [ 성적표    => 과목 , 성적 출력 ] 
+   [ 수강생정보 => 학생이름 , 소속반 출력 ] 
+
+[출력결과] 
+과목  성적   학생이름  소속반 
+영어  NULL	물고기	  C
+수학	 NULL	물고기	  C
+국어	 NULL	물고기	  C
+*/ 
+
+SELECT A.과목
+     , A.성적
+     , B.학생이름
+     , B.소속반
+  FROM 성적표 A, 수강생정보 B
+ WHERE A.학생ID = B.학생ID
+   AND A.성적 IS NULL;
+
+
+/* 
+3.  직원중에 주소를 입력하지 않는 대상의 정보만 출력해주세요. (오라클 방식으로 풀이하시오)  
+    직원 => [ 직원id , 이름 ] 컬럼을 출력 
+    (힌트 : 직원주소 테이블과 조인 , IS NULL 조건 활용) 
+    (단, 출력 순서는 고려하지 않습니다 ) 
+
+[출력결과] 
+직원ID   이름 
+A0011	신입
+A0003	이현정
+A0002	강홍수
+A0005	문현철
+A0004	김선미
+A0001	김철수
+*/ 
+SELECT * FROM 직원;
+SELECT * FROM 직원주소;
+
+SELECT A.직원ID
+     , A.이름
+  FROM 직원 A, 직원주소 B
+  WHERE A.직원ID = B.직원ID(+)
+    AND B.주소 IS NULL;
+
+
+SELECT A.직원ID
+     , A.이름
+     , B.주소
+     , B.구분코드
+  FROM 직원 A, 직원주소 B
+  WHERE A.직원ID = B.직원ID(+);
+
+/*
+4. 위 3번 문항을 ANSI 문법으로 바꿔주세요 
+*/ 
+
+SELECT A.직원ID
+     , A.이름
+  FROM 직원 A LEFT OUTER JOIN 직원주소 B ON A.직원ID = B.직원ID
+ WHERE B.주소 IS NULL;
+
+/* 
+5. 직원 테이블과 직원연락처 테이블을 [직원ID] 로 조인하여 아래와 같은 결과를 출력하세요. 
+   (오라클 조인 방식, ANSI 조인 방식 아무거나 상관 없음) 
+
+[출력결과] 
+직원ID    이름    연봉       휴대폰  (<- 이 컬럼은 AS로 이름을 바꾼것입니다. 원래는 연락처 컬럼) 
+A0001	김철수	2800	010-1231-1234
+A0002	강홍수	3000	010-2544-6342
+A0003	이현정	2600	010-7766-5231
+A0004	김선미	4500	010-4433-5522
+A0005	문현철	5000	010-9988-7273
+A0006	송대주	7500	010-8373-5511
+A0007	메이슨	6200	010-2323-1133
+A0008	송진아	7500	010-8877-0087
+*/
+
+SELECT A.직원ID
+     , A.이름
+     , A.연봉
+     , B.연락처 AS 휴대폰
+  FROM 직원 A, 직원연락처 B
+ WHERE A.직원ID=B.직원ID
+   AND B.구분코드 = '휴대폰';
+
+/*
+6. 아래 쿼리를 ANSI 문법으로 변경하세요. 
+SELECT A.직원ID , A.이름 , A.나이 , A.연봉 , B.연락처
+  FROM 직원 A
+     , 직원연락처 B 
+ WHERE A.직원ID = B.직원ID(+)
+   AND A.직원ID IN ('A0005' , 'A0006' , 'A0007' ) ; 
+*/ 
+
+SELECT A.직원ID , A.이름 , A.나이 , A.연봉 , B.연락처
+  FROM 직원 A RIGHT OUTER JOIN 직원연락처 B 
+    ON  (A.직원ID = B.직원ID)
+ WHERE A.직원ID IN ('A0005' , 'A0006' , 'A0007' ) ; 
+
+--GROUP BY 집계합수 배우기 
+
+SELECT 학생ID, COUNT(*), COUNT(성적)
+  FROM 성적표
+ GROUP BY 학생ID;
+
+SELECT 패스워드 FROM 직원 ORDER BY 패스워드;
+SELECT MAX(패스워드) FROM 직원 ORDER BY 패스워드;
+
+SELECT ASCII(패스워드) , 패스워드 FROM 직원;
+
+SELECT 학생ID, ROUND (AVG(성적), 1) AS 성적
+  FROM 성적표
+ GROUP BY 학생ID;
+ 
+ 
+--성적표 테이블에서 학생별로 평균점수를 출력해주세요.
+--이때 소수점 1자리 까지만 출력되도록 ROUND 함수도 활용해보세요.
+
+
+SELECT 학생ID, ROUND (AVG(성적), 1) AS 인원수
+  FROM 성적표
+ GROUP BY 학생ID;
+ 
+-- 직원 테이블에서 모든 직원 중에 최고연봉과 최저연봉을 출력해주세요.
+
+SELECT MAX(연봉) AS 최고연봉
+     , MIN(연봉) AS 최저연봉
+--     , ROUND(AVG(연봉),1)AS 평균연봉
+  FROM 직원;
+  
+--수강생정보 테이블에서 각 소속된 반별로 몇 명이 있는지 출력해주세요.
+SELECT * FROM 수강생정보;
+SELECT 소속반, COUNT(소속반) AS 반별인원수
+  FROM 수강생정보
+ GROUP BY 소속반;
+ 
+--성적표 테이블에서 학생별로 국어와 영어 성적의 평균을 출력해주세요.
+
+SELECT 학생ID, AVG(성적)
+  FROM 성적표
+ WHERE 과목 ! = '수학'
+ GROUP BY 학생ID;
+ 
+-- 직원 테이블에서 부서별로 연봉의 합계를 출력해주세요.
+SELECT 부서ID, SUM(연봉)
+  FROM 직원
+ GROUP BY 부서ID;
+ 
+ /*
+ 6. 직원 테이블과 직원 연락처 테이블을 이용해서 직원별로 연락처정보가 몇개 있는지 출력해주세요.
+직원 테이블을 기준으로 A0001 ~ A0011 의 모든 직원을 보여주되 , 연락처가 없는 대상도 0건으로
+출력되도록 해주세요. (단 , 조인시 오라클방식의 조인을 이용해보세요 )
+예) 직원 A0001 은 집전화, 휴대폰 둘다 가지고 있으므로 2개의 연락처 정보가 있습니다.
+직원 A0006 은 휴대폰 만 있으므로 1개의 연락처 정보가 있습니다.
+직원 A0009 은 연락처 정보가 없어서 0건을 표시하고 싶습니다.*/
+
+SELECT A.직원ID, COUNT(B.연락처) AS 연락처
+  FROM 직원 A, 직원연락처 B
+ WHERE A.직원ID = B.직원ID(+)
+ GROUP BY A.직원ID
+ ORDER BY A.직원ID;
+ 
+ 
+ SELECT 학생ID , ROUND(AVG(성적), 1)AS 평균
+   FROM 성적표
+  GROUP BY 학생ID
+  HAVING AVG(성적) <=75 
+  ORDER BY 평균;
+  
+  
+--HAVING
+
+ --수강생정보 테이블에서 소속반 별 인원수가 3명이상인 튜플(행)만 출력해주세요.
+ 
+SELECT 소속반, COUNT(소속반)
+  FROM 수강생정보
+ GROUP BY 소속반
+HAVING COUNT(소속반)>=3;
+
+--직원 테이블에서 부서별 최고연봉이 7500인 튜플(행)만 출력해주세요.
+SELECT 부서ID, MAX(연봉) AS 최고연봉
+  FROM 직원
+ GROUP BY 부서ID
+HAVING MAX(연봉)=7500;
+
+
+--3. 성적표 테이블에서 학생별 평균성적을 구하되,
+--평균값이 NULL이 아닌 값만 출력해주세요.
+SELECT 학생ID, ROUND (AVG(성적), 1) AS 평균성적
+  FROM 성적표
+ GROUP BY 학생ID
+HAVING AVG(성적) IS NOT NULL
+ ORDER BY 학생ID;
+
+ SELECT 학생ID, ROUND (AVG(성적), 1) AS 평균성적
+  FROM 성적표
+ -- WHERE 성적 IS NOT NULL
+ GROUP BY 학생ID
+HAVING AVG(성적) IS NOT NULL
+ ORDER BY 학생ID DESC;
+ 
+SELECT *
+  FROM 직원
+ ORDER BY 부서ID, 이름;
+ 
+SELECT 직원ID
+     , 이름
+     , 연봉 AS 직원들의연봉
+     , 연봉 *0.1 AS 보너스
+  FROM 직원
+ ORDER BY 3;
+ 
+
+
+--DML 문법 
+
+INSERT INTO 직원 (
+       직원ID
+     , 패스워드
+     , 이름
+     , 성별
+     , 나이
+     , 입사일시
+     , 주민등록번호
+     , 부서ID
+) VALUES (
+       'A0012'  --식별자는 중복값과 NULL값이 들어오면 안됨
+     , 'pass1234'
+     , '강감찬'
+     , '남'
+     , 31
+     , SYSDATE
+     , '930911-1255231'
+     , 'D001'
+);
+  
+-- 값 리스트에 모든 컬럼의 모든 자료형을 맞춰서 넣어주면 컬럼리스트 생략 가능하긴함
+  INSERT INTO 직원
+VALUES (
+'A0014'
+, 'hipasswd'
+, '공손한'
+, '여'
+, 50
+, sysdate
+, '740922-2555111'
+, 7000
+, 'D002'
+) ; 
+
+SELECT * FROM 직원;
+
+COMMIT;
+
+
+UPDATE 직원
+   SET 연봉 = 9999
+ WHERE 직원ID = 'A0001';
+ 
+ COMMIT;
