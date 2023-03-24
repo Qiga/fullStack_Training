@@ -4,14 +4,13 @@ public class Ex10치환 {
 
 		String left = "red";
 		String right = "blue";
-		
+
 		String mid;
-		
+
 		mid = left;
 		left = right;
 		right = mid;
-		
-	
+
 		System.out.println(left);
 		System.out.println(right);
 	}

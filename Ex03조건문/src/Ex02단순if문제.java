@@ -12,6 +12,6 @@ public class Ex02단순if문제 {
 	 if (num%3==0 || num%5==0) {
 		 System.out.println("3 또는 5의 배수입니다");
 	 }
-	 
+	 sc.close();
 }
 }

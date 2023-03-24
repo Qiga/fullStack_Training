@@ -18,5 +18,7 @@ public class Ex04ifelse문 {
 		}else {
 			System.out.println("10000원 미만");
 		}
+		
+		sc.close();
 	}
 }

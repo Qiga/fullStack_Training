@@ -49,5 +49,7 @@ public class Ex02_Ex04_산술연산_문제 {
 		int c = (time-(time/3600)*3600)/60;
 		
 		System.out.printf("%d시 %d분 %d초", time/3600, (time-(time/3600)*3600)/60, (time-((time/3600)*3600)-(c*60)));
+		
+		sc.close();
 }
 }

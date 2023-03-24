@@ -52,6 +52,7 @@ public class Ex08다중ifelse문제 {
 	} else {
 		System.out.println("잔액이 부족합니다");
 	}
+	sc.close();
 
 }
 

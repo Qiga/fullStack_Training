@@ -19,8 +19,9 @@ public class Ex01if문 {
 		System.out.println("맨아랫줄");
 		
 		//dead code : 절대 실행 안되는 코드(의미가 없음)
-		if(false) {
-		}
+		/*if(false) {
+		}*/
+		sc.close();
 	}
 
 }

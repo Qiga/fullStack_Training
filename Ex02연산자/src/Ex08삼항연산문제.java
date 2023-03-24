@@ -14,5 +14,7 @@ public class Ex08삼항연산문제 {
 		double pay = (wTime <= 8) ? wTime * def_ttp : (8 * def_ttp + (wTime - 8) * (def_ttp * 1.5));
 
 		System.out.printf("총 임금은 %d원 입니다.", (int)pay );
+		
+		sc.close();
 	}
 }

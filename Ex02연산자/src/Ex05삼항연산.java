@@ -11,5 +11,7 @@ public static void main(String[] args) {
 	System.out.println((num%2==0)? num+"은 짝수입니다" : num+"은 홀수입니다");
 	
 	System.out.println(num+ ((num%2==0)? "은 짝수입니다" : "은 홀수입니다"));
+	
+	sc.close();
 }
 }

@@ -26,6 +26,8 @@ public class Ex03if문제 {
 		}else {
 			System.out.println("불합격");
 		}
+		
+		sc.close();
 
 	}
 }

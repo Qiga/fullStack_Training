@@ -22,5 +22,6 @@ public class Ex06다중ifelse문 {
 		}else {
 			System.out.println("F");
 		}
+		sc.close();
 	}
 }

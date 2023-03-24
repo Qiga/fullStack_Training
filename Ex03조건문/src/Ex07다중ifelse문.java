@@ -18,6 +18,7 @@ public class Ex07다중ifelse문 {
 		}else {
 			System.out.print("A, B, C 중 하나 입력해주세요");
 		}
+		sc.close();
 	}
 
 }

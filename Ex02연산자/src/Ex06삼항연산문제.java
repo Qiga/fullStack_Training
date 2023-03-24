@@ -14,5 +14,7 @@ public class Ex06삼항연산문제 {
 	 int iSnd = sc.nextInt();
 	 
 	 System.out.printf("두 수의 차 : %d", (iFst>iSnd)?iFst-iSnd:iSnd-iFst);
+	 
+	 sc.close();
 }
 }

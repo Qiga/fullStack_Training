@@ -42,5 +42,6 @@ public class Ex11Switch문제 {
 		// 15버전 이상부터 가능한 방법
 		// case 1,2,12:
 		}
+		sc.close();
 	}
 }

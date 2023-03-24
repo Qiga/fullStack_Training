@@ -29,6 +29,7 @@ public class Ex10Switch문제 {
 		default :
 			System.out.println("다른 값 입력");
 		}
+		sc.close();
 
 	}
 }

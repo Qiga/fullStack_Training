@@ -12,5 +12,6 @@ public class Ex07삼항연산문제 {
 
 		System.out.printf("필요한 상자의 수 : %d", (ball % 5 == 0) ? ball / 5 : ball / 5 + 1);
 
+		sc.close();
 	}
 }
