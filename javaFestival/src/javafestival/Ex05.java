@@ -28,7 +28,7 @@ public class Ex05 {
 			for (int i = count; i > 0; i--) {
 				System.out.print(star);
 			}
-			System.out.println("");
+			System.out.println(" ");
 			count++;
 
 		}
