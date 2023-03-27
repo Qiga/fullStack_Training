@@ -32,6 +32,6 @@ public class Ex15 {
 				}
 		}while (life > 0);
 			
-		
+		sc.close();
 	}
 }

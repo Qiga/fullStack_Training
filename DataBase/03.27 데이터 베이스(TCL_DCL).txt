@@ -1,0 +1,107 @@
+COMMENT ON TABLE QUIZ_TABLE IS '퀴즈정보테이블';
+
+
+DROP TABLE  회원정보;
+
+DROP TABLE  회원정보 CASCADE CONSTRAINTS;
+
+SELECT * FROM 회원정보; 
+
+CREATE SEQUENCE 직원ID_SEQ
+       INCREMENT BY 1 --증가할 시퀀스 값
+       START WITH 1 -- 시작할 시퀀스 값
+       MINVALUE 1 --최소 사용할 시퀀스 값 1
+       MAXVALUE 9999; -- 최대시퀀스 값 9999
+
+INSERT INTO 직원 (
+직원ID
+, 패스워드
+, 이름
+, 성별
+, 나이
+, 입사일시
+, 주민등록번호
+, 연봉
+, 부서ID
+) VALUES (
+'A' || LPAD( 직원ID_SEQ.NEXTVAL , 4 , '0' )
+, '비밀번호123'
+, '새직원'
+, '여'
+, 30
+, SYSDATE
+, '930711-2441223'
+, 5000
+, 'D006'
+);
+
+SELECT * FROM 직원;
+
+SELECT LPAD( 직원ID_SEQ.NEXTVAL, 4, '0') FROM DUAL;
+
+SELECT 직원ID_SEQ.NEXTVAL FROM DUAL;
+
+DROP SEQUENCE 직원ID_SEQ ;
+
+SELECT 부서ID, MAX(연봉) AS 부서별최고연봉
+  FROM 직원
+ GROUP BY 부서ID
+ ORDER BY 부서ID;
+ 
+ DELETE FROM 직원 WHERE 이름 = '새직원' ;
+ 
+ CREATE VIEW 부서별최고연봉_VIEW AS
+ SELECT 부서ID, MAX(연봉) AS 부서별최고연봉
+  FROM 직원
+ GROUP BY 부서ID
+ ORDER BY 부서ID;
+ 
+ SELECT A.이름
+      , A.연봉
+      , B.부서별최고연봉
+   FROM 직원 A
+      , (
+       SELECT 부서ID, MAX(연봉) AS 부서별최고연봉
+         FROM 직원
+     GROUP BY 부서ID
+     ORDER BY 부서ID
+         )B
+  WHERE A.부서ID = B.부서ID
+    AND A.연봉 = B.부서별최고연봉 ;
+ 
+ 
+ --보안 목적의 VIEW
+ 
+ CREATE VIEW 직원_민감정보제외 AS
+SELECT 직원ID
+     , 이름
+     , 부서ID
+  FROM 직원;
+  
+SELECT * FROM 직원_민감정보제외 ORDER BY 부서ID;
+
+DROP VIEW 부서별최고연봉_VIEW;
+
+
+-- TCL
+ COMMIT ;
+ SELECT 직원ID, 이름, 연봉 FROM 직원;
+ 
+  UPDATE 직원
+    SET 연봉 = 6666
+  WHERE 직원ID = 'A0003';
+  SAVEPOINT SV1;
+  
+  ROLLBACK TO SV1;
+  ROLLBACK;
+
+-- DML : 직접 커밋해줘야 영구반영이 된다.
+-- DDL : 실행할 때마다 자동으로 커밋이 된다.
+
+--조회 : SELECT (DML에 넘기기도 함)
+--DML : INSERT, UPDATE, DELETE, MERGE
+--DDL : CREATE, ALTER, DROP, RENAME, TRUNCATE
+--TCL : COMMIT, ROLLBACK, SAVEPOINT (DCL로 넘기기도 함)
+--DCL - GRANT, REVOKE, ROLE.
+
+SELECT 패스워드 FROM 직원;

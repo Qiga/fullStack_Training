@@ -24,5 +24,6 @@ public class Ex16 {
 		}
 		System.out.printf("출력 : %d", sum);
 			
+		sc.close();
 	}
 }

@@ -13,14 +13,17 @@ public class Ex04while문제 {
 		
 		Scanner sc = new Scanner(System.in);
 		
+		//현재몸무게, 목표 몸무게 입력받기
 		System.out.print("현재 몸무게 : ");
 		int now = sc.nextInt();
 		
 		System.out.print("목표 몸무게 : ");
 		int goal = sc.nextInt();
 		
+		//주차 설정
 		int week=1;
 		
+		//목표 몸무게와 현재 몸무게 대조하기 
 		while (now>goal) {
 			System.out.print(week +"주차 감량 몸무게 : ");
 			int less = sc.nextInt();
