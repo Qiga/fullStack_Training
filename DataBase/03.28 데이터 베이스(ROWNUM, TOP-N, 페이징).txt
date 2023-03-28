@@ -1,0 +1,153 @@
+
+
+SELECT ROWNUM AS RN
+     , 직원ID
+     , 연봉
+     , 부서ID
+  FROM 직원
+ WHERE ROWNUM != 1
+   AND ROWNUM = 2;
+  -- 실제 테이블에 없는데 사용되는 ROWNUM같은 컬럼을 가짜컬럼(의사컬럼)이라고 함
+  
+  --1이 사용이 되어야 2가 사용이 됨. WHERE  ROWNUM=2;>>를 받아들이지 못함.
+  
+  --인라인뷰 활용하여 2표시하기
+  
+SELECT *
+  FROM( 
+      SELECT ROWNUM AS RN
+         , 직원ID
+         , 이름
+         , 연봉
+         , 부서ID
+      FROM 직원
+     )
+ WHERE RN = 2;
+ 
+ 
+ 
+SELECT ROWNUM AS RN
+     , 직원ID
+     , 연봉
+     , 부서ID
+  FROM 직원
+ WHERE ROWNUM != 1
+   AND ROWNUM > 2;
+   
+SELECT *
+  FROM 직원
+ WHERE 연봉 IS NOT NULL
+ ORDER BY 연봉 DESC;
+ 
+ --연봉이 높은 5명 추출하기
+ 
+SELECT ROWNUM AS RANKING
+     , 이름
+     , 연봉
+     , 직원ID
+  FROM (
+          SELECT *
+          FROM 직원
+          WHERE 연봉 IS NOT NULL
+         ORDER BY 연봉 DESC
+    )
+ WHERE ROWNUM <= 5;
+ 
+ 
+ --직원중 하위 3명 모든 정보 출력 (연봉 NULL제외)
+
+SELECT ROWNUM
+     , 직원ID
+     , 패스워드
+     , 이름
+     , 성별
+     , 나이 
+     , 입사일시
+     , 주민등록번호
+     , 연봉
+     , 부서ID
+  FROM (     
+        SELECT *
+          FROM 직원
+         WHERE 연봉 IS NOT NULL
+         ORDER BY 연봉
+        )
+ WHERE ROWNUM <= 3;
+ 
+ 
+ -- 가장 최근 입사한 3명의 모든 정보 출력
+SELECT *
+  FROM (
+        SELECT *
+          FROM 직원
+         WHERE 입사일시 IS NOT NULL
+         ORDER BY 입사일시 DESC
+        )
+ WHERE ROWNUM <= 3;
+ 
+ 
+ -- 게시판 테이블에 100만개 데이터 넣기
+ CREATE TABLE 게시판 (
+게시판번호 NUMBER(9) PRIMARY KEY ,
+작성자 VARCHAR2(50) NOT NULL ,
+게시물내용 VARCHAR2(4000) NOT NULL ,
+작성일시 DATE NOT NULL
+) ;
+INSERT INTO 게시판
+SELECT LEVEL -- 게시판번호
+, '아이디' || MOD(LEVEL , 10000) -- 작성자
+, '아이디' ||
+MOD(LEVEL , 10000) ||
+'님이 작성하신 게시물입니다. 이 게시물은 게시판 번호가 '
+|| LEVEL
+|| '입니다' -- 게시물내용
+, TO_DATE('20000101') + LEVEL --2022년 1월1일부터 하루씩 게시물이 입력되는 것
+FROM DUAL
+CONNECT BY LEVEL <=1000000; --100만건의 데이터 입력
+COMMIT; 
+
+
+-- 100만건 확인
+SELECT COUNT(*) FROM 게시판;
+
+-- 100만건이 한번에 나오는게 아니라 50개씩 나눠서 나오게됨
+SELECT * FROM 게시판;
+
+
+-- 게시판 테이블에서 최근 게시물 20개 뽑아 정보 가져오기
+SELECT *
+  FROM (
+        SELECT *
+          FROM 게시판
+         ORDER BY 작성일시 DESC
+        )
+ WHERE ROWNUM <=20;
+ 
+ 
+-- 21번째 ~ 40번째 데이터를 뽑아오기
+SELECT *
+  FROM (
+        SELECT ROWNUM AS RN , A.*
+          FROM (
+                SELECT *
+                  FROM 게시판
+                 ORDER BY 작성일시 DESC
+                ) A
+         WHERE ROWNUM <=40
+         )
+ WHERE RN >= 21 ;
+ 
+ 
+ -- 최근 작성 게시물 기준 31~60번쨰 데이터만 출력하기 (페이징)
+SELECT *
+  FROM (
+        SELECT ROWNUM AS RN, A.*
+          FROM(
+                SELECT *
+                  FROM 게시판
+                 ORDER BY 작성일시 DESC
+                ) A
+         WHERE ROWNUM <=60
+         )
+ WHERE RN > 30;
+

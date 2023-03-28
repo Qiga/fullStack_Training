@@ -1,0 +1,212 @@
+--서브쿼리
+
+ALTER TABLE 직원 MODIFY (부서ID NULL) ;
+UPDATE 직원 SET 부서ID = NULL WHERE 직원ID = 'A0005' ;
+COMMIT;
+
+-- 스칼라 서브쿼리 :  
+-- SELECT에서 활용되는 서브쿼리로 하나의 컬럼에 대해 하나의 행만 반환하는 특징
+
+-- 스칼라 서브쿼리를 사용해서 A0001~A0006사이의 직원의 직원ID, 연봉, 부서ID, 부서명 출력
+SELECT A.직원ID
+     , A. 연봉
+     , A. 부서ID
+     , (
+        SELECT 부서명
+          FROM 부서
+         WHERE 부서ID = A.부서ID) AS 부서명
+  FROM 직원 A
+ WHERE 직원ID BETWEEN 'A0001' AND 'A0006';
+
+
+--같은 결과를 JOIN으로 하게 되면
+
+SELECT A.직원ID
+     , A.연봉
+     , B.부서ID
+     , B.부서명
+  FROM 직원 A LEFT OUTER JOIN 부서 B ON A.부서ID=B.부서ID
+ WHERE A.직원ID BETWEEN 'A0001' AND 'A0006'
+ ORDER BY B.부서ID;
+ 
+ 
+--문제1 : 직원 테이블에서 직원 A0001~ A0006까지 직원ID, 연봉, 부서ID를 출력하고
+-- 부서ID에 대한 부서명도 함께 출력하시오
+
+SELECT A.직원ID
+     , A.연봉
+     , A.부서ID
+     , (
+        SELECT 부서명
+          FROM 부서
+         WHERE 부서ID = A.부서ID) AS 부서명
+  FROM 직원 A
+ WHERE 직원ID BETWEEN 'A0001' AND 'A0006';
+ 
+--위를 조인방식을 활용하여 다시 표현하시오
+
+SELECT A.직원ID
+     , A.연봉
+     , A.부서ID
+     , B.부서명
+  FROM 직원 A, 부서 B
+ WHERE A.부서ID = B.부서ID(+)
+   AND 직원ID BETWEEN 'A0001' AND 'A0006';
+
+-- ANSI 방식을 활용해보시오
+
+SELECT A.직원ID
+     , A.연봉
+     , A.부서ID
+     , B.부서명
+  FROM 직원 A LEFT OUTER JOIN 부서 B ON A.부서ID=B.부서ID
+ WHERE 직원ID BETWEEN 'A0001' AND 'A0006';
+ 
+-- 문제2 : 직원테이블에서 직원 A0006~A0010까지 직원ID, 이름, 주민등록번호 출력, 
+-- 휴대폰 번호 출력되도록 하시오.
+
+SELECT A.직원ID
+     , A.이름
+     , A.주민등록번호
+     ,( 
+        SELECT 연락처
+          FROM 직원연락처
+         WHERE 직원ID = A.직원ID
+           AND 구분코드 = '휴대폰') AS 휴대폰번호
+  FROM 직원 A
+ WHERE 직원ID BETWEEN 'A0006' AND 'A0010';
+ 
+-- 조인 방식을 활용하여 표현하시오
+
+SELECT A.직원ID
+     , A.이름
+     , A.주민등록번호
+     , B.연락처
+  FROM 직원 A, 직원연락처 B 
+ WHERE A.직원ID = B.직원ID(+)
+   AND A.직원ID BETWEEN 'A0006' AND 'A0010'
+   AND (B.구분코드 = '휴대폰'
+    OR B.구분코드 IS NULL);
+    
+
+--ANSI방식으로 다시 표현하시오
+   
+   SELECT A.직원ID
+     , A.이름
+     , A.주민등록번호
+     , B.연락처
+  FROM 직원 A LEFT OUTER JOIN 직원연락처 B ON A.직원ID = B.직원ID
+ WHERE A.직원ID BETWEEN 'A0006' AND 'A0010'
+   AND (B.구분코드 = '휴대폰'
+    OR B.연락처 IS NULL);
+    
+ 
+
+-- 문제 3 : 위 2번 문제의 쿼리를 그대로 사용하되 스칼라서브쿼리를 사용해 집주소도 같이 출력
+
+SELECT A.직원ID
+     , A.이름
+     , A.주민등록번호
+     ,( 
+        SELECT 연락처
+          FROM 직원연락처
+         WHERE 직원ID = A.직원ID
+           AND 구분코드 = '휴대폰') AS 휴대폰번호
+     ,( 
+        SELECT 주소
+          FROM 직원주소
+         WHERE 직원ID = A.직원ID
+           AND 구분코드 = '집') AS 집주소
+  FROM 직원 A
+ WHERE 직원ID BETWEEN 'A0006' AND 'A0010';
+ 
+
+--조인 방식을 활용하여 작성하시오
+
+SELECT A.직원ID
+     , A.이름
+     , A.주민등록번호
+     , B.연락처
+     , C.주소
+  FROM 직원 A, 직원연락처 B, 직원주소 C
+ WHERE A.직원ID = B.직원ID(+)
+   AND A.직원ID = C.직원ID(+)
+   AND A.직원ID BETWEEN 'A0006' AND 'A0010'
+   AND (B.구분코드 = '휴대폰'
+    OR B.구분코드 IS NULL)
+   AND C.구분코드(+) = '집';
+ 
+ 
+--ANSI방식을 활용하시오
+
+SELECT A.직원ID
+     , A.이름
+     , A.주민등록번호
+     , B.연락처
+     , C.주소
+  FROM 직원 A LEFT OUTER JOIN 직원연락처 B ON A.직원ID = B.직원ID 
+             LEFT OUTER JOIN 직원주소 C ON A.직원ID = C.직원ID
+ WHERE  A.직원ID BETWEEN 'A0006' AND 'A0010'
+   AND (B.구분코드 = '휴대폰'
+    OR B.구분코드 IS NULL)
+   AND (C.구분코드 = '집'
+    OR C.구분코드 IS NULL);
+
+SELECT *
+  FROM 직원주소;
+  
+  
+-- 인라인뷰 연습하기
+
+SELECT A.직원ID
+     , A. 이름
+     , A. 연봉
+     , B. 부서별최고연봉
+  FROM 직원 A, (
+         SELECT 부서ID, MAX(연봉) AS 부서별최고연봉
+           FROM 직원
+          WHERE 부서ID IS NOT NULL
+          GROUP BY 부서ID) B
+ WHERE A.부서ID = B.부서ID
+  AND A.연봉 = B.부서별최고연봉;
+  
+  
+--문제 1 : 부서별로 가장 낮은 연봉을 가진 직원들의 모든 정보 출력
+
+SELECT A.*
+ FROM 직원 A
+    , (
+        SELECT 부서ID, MIN(연봉) AS 부서별최저연봉
+          FROM 직원
+         WHERE 부서ID IS NOT NULL
+         GROUP BY 부서ID ) B
+ WHERE A.부서ID = B.부서ID
+   AND A.연봉 =  B.부서별최저연봉;
+   
+   
+--문제 2 : 나이가 어린 직원 3명의 모든 정보 출력 (NULL제외)
+
+SELECT A.*
+  FROM 직원 A, (
+            SELECT 직원ID, 나이, ROWNUM AS RD
+              FROM 직원
+             WHERE 나이 IS NOT NULL
+             ORDER BY 나이 ) B
+ WHERE A.직원ID = B.직원ID
+   AND B.RD <=3 ;
+ 
+-- 간결하게 정리해야지... 직원 테이블을 두번이나 불렀잖아  
+SELECT *
+  FROM (
+         SELECT *
+           FROM 직원
+          WHERE 나이 IS NOT NULL
+          ORDER BY 나이
+          )
+ WHERE ROWNUM <=3 ;
+ 
+ 
+SELECT *
+  FROM 직원
+ WHERE 연봉 >= ( SELECT AVG(연봉) 
+                   FROM 직원);
