@@ -1,0 +1,64 @@
+
+
+--상관 서브쿼리 연습--
+SELECT *
+  FROM 직원 A
+ WHERE 연봉 = ( SELECT MIN(연봉)
+                  FROM 직원
+                 WHERE 부서ID = A.부서ID
+                );
+                
+                
+-- 부서별로 가장 높은 연봉을 가진 직원들의 모든 정보를 출력하시오 (상관서브쿼리 활용)
+
+SELECT *
+  FROM 직원 A
+ WHERE 연봉 = (SELECT MAX(연봉)
+                 FROM 직원
+                WHERE 부서ID = A.부서ID);
+                
+-- 입사를 가장 늦게 한 직원의 정보를 모두 출력하세요
+
+SELECT * FROM 직원;
+
+SELECT A.*
+  FROM 직원 A 
+     , (SELECT MAX(입사일시) AS 입사일시
+          FROM 직원
+         WHERE 입사일시 IS NOT NULL) B
+ WHERE A.입사일시 = B.입사일시;
+ 
+SELECT *
+  FROM 직원
+ WHERE 입사일시 = (SELECT MAX(입사일시) FROM 직원);
+ 
+-- 가장 고연봉인 직원의 정보를 모두 출력하세요
+
+SELECT A.*
+  FROM 직원 A, 
+       ( SELECT MAX(연봉) AS 최고연봉
+           FROM 직원 ) B
+ WHERE A.연봉 = B.최고연봉;
+
+--단일행/다중행 연산자--
+
+SELECT *
+  FROM 직원
+ WHERE 연봉 IN (SELECT MAX(연봉)
+                 FROM 직원
+                GROUP BY 부서ID);
+                
+-- =ANY(,,) :하나라도 일치하면 모두 출력
+SELECT *
+  FROM 직원
+ WHERE 연봉 = ANY (SELECT MAX(연봉)
+                 FROM 직원
+                GROUP BY 부서ID);  
+                
+-- ALL(,,) : 모두 맞아야 출력
+
+SELECT *
+  FROM 직원
+ WHERE 연봉 >= ALL (SELECT MAX(연봉)
+                 FROM 직원
+                GROUP BY 부서ID); 
