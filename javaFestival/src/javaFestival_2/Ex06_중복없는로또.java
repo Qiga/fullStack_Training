@@ -4,7 +4,7 @@ package javaFestival_2;
 import java.util.Random;
 
 
-public class Ex06 {
+public class Ex06_중복없는로또 {
 
 	public static void main(String[] args) {
 		// 중복이 없이 숫자를 뽑는 로또 프로그램을 만드시오
@@ -26,6 +26,7 @@ public class Ex06 {
 		}
 	
 	}
+	//중복확인 메서드
 	public static boolean equa(int[] a) {
 		for(int i = 0; i<a.length; i++) {
 			for(int e=i+1; e<a.length; e++) {

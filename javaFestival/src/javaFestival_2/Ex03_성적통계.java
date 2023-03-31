@@ -1,6 +1,6 @@
 package javaFestival_2;
 
-public class Ex03 {
+public class Ex03_성적통계 {
 
 	public static void main(String[] args) {
 

@@ -3,7 +3,7 @@ package javaFestival_2;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Ex01 {
+public class Ex01_랜덤과최대최소 {
 
 	public static void main(String[] args) {
 		//8칸 크기의 배열을 선언하고 랜덤수로 초기화 한 후

@@ -2,7 +2,7 @@ package javaFestival_2;
 
 import java.util.Scanner;
 
-public class Ex02 {
+public class Ex02_배열번호 {
 	public static void main(String[] args) {
 		
 //		정수 N을 입력받아 N * N 배열에

@@ -2,7 +2,7 @@ package javaFestival_2;
 
 import java.util.Scanner;
 
-public class Ex04 {
+public class Ex04_배열번호2 {
 	public static void main(String[] args) {
 		
 	//정수 N을 입력받아
