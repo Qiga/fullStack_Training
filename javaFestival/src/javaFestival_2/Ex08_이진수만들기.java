@@ -32,8 +32,7 @@ public class Ex08_이진수만들기 {
 				break;
 			}
 		}
-		
-		System.out.println(over_zins);
+
 		//2진수 작성하기
 		String sTwo = "";
 		
@@ -55,6 +54,28 @@ public class Ex08_이진수만들기 {
 		//	System.out.println(Integer.toBinaryString(10진수 값)); 2진수로 변환해주는 메서드
 
 		sc.close();
+		zin(2); //간단하게 표현하면 다음과 같음
 	}
 
+	public static void zin(int a) {
+		
+		String s = "";
+		
+		do {
+		if(a%2 == 0) {
+			s = "0" + s;
+			a = a/2;
+		}else {
+			s = "1" + s;
+			a = a/2;
+		}
+		
+		}while(a/2>0);
+		
+		if(a%2==1) {
+			s = "1" + s;
+		}
+		System.out.println(s);
+		
+	}
 }

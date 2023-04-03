@@ -13,12 +13,22 @@ public class Ex06_중복없는로또 {
 
 		int[] arr = new int[6];
 		
+		
 		//6자리 수 랜덤으로 부여하기
-		do {
+//		do {
 			for(int i = 0; i<arr.length; i++) {
 				arr[i] = rd.nextInt(45)+1;
-			}
-		}while(equa(arr)); //메서드로 중복확인하기 (중복일시 t/ 중복이 없으면 f)
+				
+				//중복값 확인
+				for(int j=0; j<i; j++) {
+					if(arr[i]==arr[j]) {
+						i--;
+						break;
+					}
+				}
+
+			}		
+//		}while(equa(arr)); //메서드로 중복확인하기 (중복일시 t/ 중복이 없으면 f)
 
 		//출력하기
 		for(int i = 0; i<arr.length; i++) {
@@ -26,6 +36,7 @@ public class Ex06_중복없는로또 {
 		}
 	
 	}
+	
 	//중복확인 메서드
 	public static boolean equa(int[] a) {
 		for(int i = 0; i<a.length; i++) {

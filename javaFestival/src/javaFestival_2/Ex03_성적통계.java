@@ -8,16 +8,21 @@ public class Ex03_성적통계 {
 		// String score = “A,A,B,C,D,A,C,D,D,D,F”
 		// 선언되어 있을 때 각 성적 별 학생 수를 출력하시오.
 
-		String[] score = { "A", "A", "B", "C", "D", "A", "C", "D", "D", "D", "F" };
-
+		String score = "A,A,B,C,D,A,C,D,D,D,F";
+		System.out.println(score.split(","));
+		String[] array_score = score.split(",");
+		
+		
+//		String[] score = { "A", "A", "B", "C", "D", "A", "C", "D", "D", "D", "F" };
+//
 		int A = 0;
 		int B = 0;
 		int C = 0;
 		int D = 0;
 		int F = 0;
 
-		for (int i = 0; i < score.length; i++) {
-			switch (score[i]) {
+		for (int i = 0; i < array_score.length; i++) {
+			switch (array_score[i]) {
 			case "A":
 				A++;
 				break;

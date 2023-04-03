@@ -17,14 +17,15 @@ public class Ex07배열실습_로그인 {
 
 		String[] id = new String[member.length];
 		String[] pw = new String[member.length];
-
-		String ment = "1.회원가입 2.로그인 3.종료";
+		
+		String in_id;
+		String in_pw;
 
 		// 프로그램 실행 turn 값이 변할 때까지 반복
 
 		do {
 			// 원하는 옵션 확인하기
-			System.out.println(ment);
+			System.out.println("1.회원가입 2.로그인 3.종료");
 			switch (sc.nextInt()) {
 			// 회원가입 케이스
 			case 1:
@@ -43,9 +44,9 @@ public class Ex07배열실습_로그인 {
 			case 2:
 				System.out.println("===로그인===");
 				System.out.print("id 입력 : ");
-				String in_id = sc.next();
+				in_id = sc.next();
 				System.out.print("pw 입력 : ");
-				String in_pw = sc.next();
+				in_pw = sc.next();
 				
 				// 반복을 통해서 데이터 확인
 				for(int i =0; i<member_count; i++) {
