@@ -6,7 +6,7 @@ public class Ex16_십진수만들기 {
 		//문자열 형태의 2진수를 입력받아
 //		10진수로 바꾸는 프로그램을 작성하시오
 		
-		String in = "111";
+		String in = "00101000";
 		int sum = 0;
 		int be =1;
 		char[] dan = new char[in.length()];
