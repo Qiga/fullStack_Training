@@ -17,8 +17,14 @@ public class Ex01_랜덤과최대최소 {
 		int[] arr = new int[8];
 		for(int i =0 ; i<arr.length; i++) {
 			arr[i] = rd.nextInt(100)+1;
-			max = Math.max(max, arr[i]);
-			min = Math.min(min, arr[i]);
+			if(arr[i]>max) {
+				max = arr[i];
+			}
+			if(arr[i]<min) {
+				min = arr[i];
+			}
+//			max = Math.max(max, arr[i]);
+//			min = Math.min(min, arr[i]);
 		}
 		
 		System.out.println("배열에 있는 모든 값 : "+ Arrays.toString(arr));

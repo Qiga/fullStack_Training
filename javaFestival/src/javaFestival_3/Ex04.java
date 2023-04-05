@@ -9,7 +9,7 @@ public class Ex04 {
 		
 		// Math.pow( , ) : 제곱해주는 기본 메서드 >> 사용하지 말 것
 		
-		System.out.println(powerN(2, 3));
+		System.out.println(powerN(2, 1));
 
 	}
 	

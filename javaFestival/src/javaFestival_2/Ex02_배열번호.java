@@ -22,18 +22,18 @@ public class Ex02_배열번호 {
 		
 		int[][] array = new int[n][n];
 		
-		//int num = 1; //num++을 활용해서 숫자 찍을 수 있음
+		int num = 1; //num++을 활용해서 숫자 찍을 수 있음
 		
 		//값 부여
 		for (int i=0; i<array.length; i++) {
 			for (int e=0; e<array[i].length; e++) {
-				array[i][e] = (i+1)+(e*n);
+				array[e][i] = num++;
 			}
 		}
 		//출력결과 확인해보기
 		for (int i=0; i<array.length; i++) {
 			for (int e=0; e<array[i].length; e++) {
-				System.out.print(array[i][e] + " ");
+				System.out.printf("%4s",array[i][e] + " ");
 			}
 			System.out.println("");
 		}

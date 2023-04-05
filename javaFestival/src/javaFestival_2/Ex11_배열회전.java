@@ -1,6 +1,8 @@
 package javaFestival_2;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Ex11_배열회전 {
 
@@ -21,14 +23,17 @@ public class Ex11_배열회전 {
 		}
 		//출력
 		for(int i =0; i<base.length; i++) {
-			System.out.println(Arrays.toString(base[i]));
+			for (int e=0; e<base[i].length; e++) {
+				System.out.print(base[i][e] + "\t"); 
+			}
+			System.out.println();
 		}
-		
+		System.out.println();
 		
 		//회전 후 출력 (값 저장x)
 		for (int i=base.length-1; i>=0; i--) {
-			for (int e=base[i].length-1; e>=0; e--) {
-				System.out.print(base[i][e]); 
+			for (int e=0; e<base[i].length; e++) {
+				System.out.print(base[e][i] + "\t"); 
 			}
 			System.out.println();
 		}
