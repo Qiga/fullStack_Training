@@ -35,6 +35,7 @@ public class BookSimulator {
 				System.out.println("올바른 숫자를 입력하세요.");
 			}
 		}
+		sc.close();
 
 	}
 
