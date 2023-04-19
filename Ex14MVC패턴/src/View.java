@@ -49,6 +49,7 @@ public class View {
 			
 			}
 		}
+		sc.close();
 
 	}
 
