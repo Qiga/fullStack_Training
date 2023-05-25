@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WebMemberDAO">
+
+<!-- namespace : mapper - dao 매칭 -->
+	<insert id="insert" parameterType = "com.smhrd.model.WebMember">
+		insert into webmember values (#{email},#{pw},#{tel},#{address})
+	</insert>
+	
+	<select id="select" parameterType = "com.smhrd.model.WebMember" resultType="com.smhrd.model.WebMember">
+		select email, pw from webmember where email=#{email} and pw=#{pw}
+	</select>
+</mapper>
